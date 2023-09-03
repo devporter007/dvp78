@@ -1,11 +1,31 @@
 import os
 import sys
+COLORS = {
+    "black": "\u001b[30;1m",
+    "red": "\u001b[31;1m",
+    "green": "\u001b[32m",
+    "yellow": "\u001b[33;1m",
+    "blue": "\u001b[34;1m",
+    "magenta": "\u001b[35m",
+    "cyan": "\u001b[36m",
+    "white": "\u001b[37m",
+    "yellow-background": "\u001b[43m",
+    "black-background": "\u001b[40m",
+    "cyan-background": "\u001b[46;1m",
+}
+
+
+def colortext(text):
+    for color in COLORS:
+        text = text.replace("[[" + color + "]]", COLORS[color])
+    return text
+
 
 ver = "0.1"
 gen = f'''
-                                                Port007 proudly presents:
+                                                [[yellow]]Port007[[white]] proudly presents:
                                                      
-                                                 _\\__o__ __o/   o__ __o    
+                                            [[red]]     _\\__o__ __o/   o__ __o    
                                                       v    |/  /v     v\\   
                                                           /   />       <\\  
                                                         o/    \\o       o/  
@@ -15,12 +35,13 @@ gen = f'''
                                                    /v          o       o   
                                                   />           <\\__ __/>   
                                                                            
-                                                         {ver} 
+                                                         [[cyan]]{ver}[[white]]
                                                          
-                                    Making tools to create archive grade releases since 2023       
-                        This tool is part of a tool pack made to archive art of movies for the uncertain future
+                              [[magenta]]      Making tools to create archive grade releases since 2023     
+                                      
+                    This tool is part of a tool pack made to archive art of movies for the uncertain future[[white]]
 '''
-print(gen)
+print(colortext(gen))
 try:
     buddy = sys.argv[1]
     try:
@@ -38,7 +59,7 @@ try:
     print("Do this yourself in MKVToolNiX GUI and press enter, this step is WIP")
     input("")
     print("Step-3: Combining shit...")
-    os.system(f"mkvmerge -o {workdir}{medname}.P8.mkv {workdir}\\discarded.hevc {workdir}{extensionlessname}.mka")
+    os.system(f"mkvmerge -o {workdir}{extensionlessname}.P8.mkv {workdir}\\discarded.hevc {workdir}{extensionlessname}.mka")
     print("Step-4: Cleaning up shit")
     os.system(f"del {workdir}\\discarded.hevc")
     os.system(f"del {workdir}{extensionlessname}.mka")
@@ -47,4 +68,3 @@ except IndexError:
     print("No inputs found, please drag the file to this binary.")
 
 sys.stdin.read(1)
-
