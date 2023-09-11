@@ -71,7 +71,6 @@ try:
     Clear()
     print("Step-2: Genering mka without video keeping everything else intact....")
     os.system(f"mkvmerge --output \"{workdir}{extensionlessname}.mka\" --no-video \"{buddy}\"")
-    input("")
     Clear()
     print("Step-3: Combining shit...")
     os.system(f"mkvmerge -o {workdir}{extensionlessname}.P8.mkv {workdir}\\discarded.hevc {workdir}{extensionlessname}.mka")
