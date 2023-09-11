@@ -13,8 +13,12 @@ COLORS = {
     "black-background": "\u001b[40m",
     "cyan-background": "\u001b[46;1m",
 }
+# Checks for required dependencies....[WIP]
+def prerunchecks():
 
-ver = "0.2"
+    pass
+
+ver = "0.2a"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -31,9 +35,9 @@ gen = f'''
 
                                                          [[cyan]]{ver}[[white]]
 
-                              [[magenta]]      Making tools to create archive grade releases since 2023     
+                              [[magenta]]     Making tools to create quality releases since 2023     
 
-                    This tool is part of a tool pack made to archive art of movies for the uncertain future[[white]]
+                        This tool is part of a tool pack made to archive movies for the uncertain future[[white]]
 '''
 
 
@@ -53,7 +57,7 @@ try:
     try:
         end = buddy.rindex("\\")
     except:
-        print("Invalid af file system")
+        print("Invalid file system")
         sys.stdin.read(1)
         sys.exit()
     workdir = buddy[:end]
@@ -72,15 +76,14 @@ try:
     print("Step-2: Genering mka without video keeping everything else intact....")
     os.system(f"mkvmerge --output \"{workdir}{extensionlessname}.mka\" --no-video \"{buddy}\"")
     Clear()
-    print("Step-3: Combining shit...")
+    print("Step-3: Combining everything...")
     os.system(f"mkvmerge -o {workdir}{extensionlessname}.P8.mkv {workdir}\\discarded.hevc {workdir}{extensionlessname}.mka")
     Clear()
-    print("Step-4: Cleaning up shit")
+    print("Step-4: Cleaning up intermediates...")
     os.system(f"del {workdir}\\discarded.hevc")
     os.system(f"del {workdir}{extensionlessname}.mka")
     Clear()
-    print("Sayonara, signing off....")
+    print("Exiting....")
 except IndexError:
-    print("No inputs found, please drag the file to this binary.")
-
-sys.stdin.read(1)
+    print("No inputs found, please drag the file to this script/binary")
+    sys.stdin.read(1)
