@@ -14,7 +14,7 @@ COLORS = {
     "cyan-background": "\u001b[46;1m",
 }
 
-ver = "0.1"
+ver = "0.2"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -58,12 +58,19 @@ try:
         sys.exit()
     workdir = buddy[:end]
     medname = buddy[end:]
+
+    ## Security check to avoid any code injection[for binaries]
+    if os.path.exists(buddy):
+        pass
+    else:
+        print("Malformed input arguement, exiting...")
+        sys.exit()
     extensionlessname = medname[:-4]
     print("Step-1 : Extracting RPU and removing EL....")
     os.system(f"ffmpeg -y -i {buddy} -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o {workdir}\\discarded.hevc")
     Clear()
     print("Step-2: Genering mka without video keeping everything else intact....")
-    print("Do this yourself in MKVToolNiX GUI and press enter, this step is WIP")
+    os.system(f"mkvmerge --output \"{workdir}{extensionlessname}.mka\" --no-video \"{buddy}\"")
     input("")
     Clear()
     print("Step-3: Combining shit...")
@@ -73,7 +80,7 @@ try:
     os.system(f"del {workdir}\\discarded.hevc")
     os.system(f"del {workdir}{extensionlessname}.mka")
     Clear()
-    print("Hola, signing off....")
+    print("Sayonara, signing off....")
 except IndexError:
     print("No inputs found, please drag the file to this binary.")
 
