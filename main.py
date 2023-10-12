@@ -18,7 +18,7 @@ def prerunchecks():
 
     pass
 
-ver = "0.2b"
+ver = "0.2c"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
