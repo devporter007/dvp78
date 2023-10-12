@@ -55,7 +55,13 @@ Clear()
 try:
     buddy = sys.argv[1]
     try:
-        end = buddy.rindex("\\")
+        try:
+            #Windows
+            end = buddy.rindex("\\")
+        except:
+            #Unix
+            end = buddy.rindex("/")
+            
     except:
         print("Invalid file system")
         sys.stdin.read(1)
