@@ -18,7 +18,7 @@ def prerunchecks():
 
     pass
 
-ver = "0.2d"
+ver = "0.3"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -78,17 +78,17 @@ try:
         sys.exit()
     extensionlessname = medname[:-4]
     print("Step-1 : Extracting RPU and removing EL....")
-    os.system(f"ffmpeg -y -i {buddy} -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o {workdir}{directoryController}discarded.hevc")
+    os.system(f"ffmpeg -y -i \"{buddy}\" -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o \"{workdir}\\discarded.hevc\"")
     Clear()
     print("Step-2: Genering mka without video keeping everything else intact....")
     os.system(f"mkvmerge --output \"{workdir}{extensionlessname}.mka\" --no-video \"{buddy}\"")
     Clear()
     print("Step-3: Combining everything...")
-    os.system(f"mkvmerge -o {workdir}{extensionlessname}.P8.mkv {workdir}{directoryController}discarded.hevc {workdir}{extensionlessname}.mka")
+    os.system(f"mkvmerge -o \"{workdir}{extensionlessname}.P8.mkv\" \"{workdir}\\discarded.hevc\" \"{workdir}{extensionlessname}.mka\"")
     Clear()
     print("Step-4: Cleaning up intermediates...")
-    os.remove(f"{workdir}{directoryController}discarded.hevc")
-    os.remove(f"{workdir}{extensionlessname}.mka")
+    os.remove(f"\"{workdir}\\discarded.hevc\"")
+    os.remove(f"\"{workdir}{extensionlessname}.mka\"")
     Clear()
     print("Exiting....")
 except IndexError:
