@@ -18,7 +18,7 @@ def prerunchecks():
 
     pass
 
-ver = "0.3a"
+ver = "0.3b"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -87,8 +87,8 @@ try:
     os.system(f"mkvmerge -o \"{workdir}{extensionlessname}.P8.mkv\" \"{workdir}{directoryController}discarded.hevc\" \"{workdir}{extensionlessname}.mka\"")
     Clear()
     print("Step-4: Cleaning up intermediates...")
-    os.remove(f"\"{workdir}{directoryController}discarded.hevc\"")
-    os.remove(f"\"{workdir}{extensionlessname}.mka\"")
+    os.remove(f"{workdir}{directoryController}discarded.hevc")
+    os.remove(f"{workdir}{extensionlessname}.mka")
     Clear()
     print("Exiting....")
 except IndexError:
