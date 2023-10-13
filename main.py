@@ -18,7 +18,7 @@ def prerunchecks():
 
     pass
 
-ver = "0.3b"
+ver = "0.3c"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -63,10 +63,23 @@ try:
             #Unix
             end = buddy.rindex("/")
             directoryController = "/"
+    # Handles short paths.
     except:
-        print("Invalid file system")
-        sys.stdin.read(1)
-        sys.exit()
+        # Obviously there are better ways to do it.
+        if os.path.isfile(buddy):
+            buddy = os.path.abspath(buddy)
+            try:
+                # Windows
+                end = buddy.rindex("\\")
+                directoryController = "\\"
+            except:
+                # Unix
+                end = buddy.rindex("/")
+                directoryController = "/"
+        else:
+            print("Invalid file system")
+            sys.stdin.read(1)
+            sys.exit()
     workdir = buddy[:end]
     medname = buddy[end:]
 
@@ -90,7 +103,7 @@ try:
     os.remove(f"{workdir}{directoryController}discarded.hevc")
     os.remove(f"{workdir}{extensionlessname}.mka")
     Clear()
-    print("Exiting....")
+    print("Exiting...")
 except IndexError:
     print("No inputs found, please drag the file to this script/binary")
     sys.stdin.read(1)

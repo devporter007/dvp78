@@ -13,6 +13,5 @@ All of the above-mentioned tools should be present in the environment variables.
 DoVi P7 MEL to P8 conversion is completely lossless with no changes in bitrate.<br><br>
 DoVi P7 FEL to P8 conversion is not lossless as it results in EL being removed and overall bitrate being reduced. However, this does not mean that the raw visual quality of the media is reduced. It is just that the EL that made the media look better is not present.
 <br><br>
-Provide absolute paths for source files otherwise script will throw a invalid filesystem error.
 
  personally prefer to create a binary of this script using PyInstaller and put it in my system environment so I can call it whenever I like.
