@@ -18,7 +18,7 @@ def prerunchecks():
 
     pass
 
-ver = "0.3c"
+ver = "0.3d"
 
 gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -47,7 +47,7 @@ def colortext(text):
         text = text.replace("[[" + color + "]]", COLORS[color])
     return text
 def Clear():
-    os.system('cls')
+    os.system('cls' if os.name=='nt' else 'clear')
     print(colortext(gen))
 
 Clear()
