@@ -53,7 +53,9 @@ def run_command(command):
         sys.exit(1)
 
 def process_file(file_path):
-    file_path = os.path.abspath(file_path)
+    # Convert to absolute path, considering the current working directory
+    file_path = os.path.abspath(os.path.expanduser(file_path))
+    
     if not os.path.isfile(file_path):
         print(f"File does not exist: {file_path}")
         sys.exit(1)
@@ -65,6 +67,9 @@ def process_file(file_path):
     hevc_output = os.path.join(work_dir, f"{name_without_ext}.hevc")
     mka_output = os.path.join(work_dir, f"{name_without_ext}.mka")
     final_output = os.path.join(work_dir, f"{name_without_ext}.P8.mkv")
+
+    print(f"Processing file: {file_path}")
+    print(f"Working directory: {work_dir}")
 
     print("Step 1: Extracting RPU and removing EL...")
     run_command(f'ffmpeg -y -i {shlex.quote(file_path)} -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o {shlex.quote(hevc_output)}')
@@ -84,6 +89,7 @@ def process_file(file_path):
     clear_screen()
 
     print("Processing completed successfully.")
+    print(f"Output file: {final_output}")
 
 def main():
     clear_screen()
