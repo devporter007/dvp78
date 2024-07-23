@@ -18,7 +18,7 @@ COLORS = {
     "reset": "\u001b[0m",
 }
 
-VERSION = "0.3g"
+VERSION = "0.3f"
 
 BANNER = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
@@ -72,7 +72,7 @@ def process_file(file_path):
     print(f"Working directory: {work_dir}")
 
     print("Step 1: Extracting RPU and removing EL...")
-    run_command(f"ffmpeg -y -i \"{shlex.quote(file_path)}\" -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o \"{shlex.quote(hevc_output)}\"")
+    run_command(f"ffmpeg -y -i \"{shlex.quote(file_path)}\" -dn -c:v copy -bsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o \"{shlex.quote(hevc_output)}\"")
     clear_screen()
 
     print("Step 2: Generating mka without video, keeping everything else intact...")
