@@ -18,7 +18,7 @@ COLORS = {
     "reset": "\u001b[0m",
 }
 
-VERSION = "0.3f"
+VERSION = "0.3g"
 
 BANNER = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
