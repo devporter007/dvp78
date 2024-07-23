@@ -72,15 +72,15 @@ def process_file(file_path):
     print(f"Working directory: {work_dir}")
 
     print("Step 1: Extracting RPU and removing EL...")
-    run_command(f'ffmpeg -y -i {shlex.quote(file_path)} -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o {shlex.quote(hevc_output)}')
+    run_command(f"ffmpeg -y -i \"{shlex.quote(file_path)}\" -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o \"{shlex.quote(hevc_output)}\"")
     clear_screen()
 
     print("Step 2: Generating mka without video, keeping everything else intact...")
-    run_command(f'mkvmerge --output {shlex.quote(mka_output)} --no-video {shlex.quote(file_path)}')
+    run_command(f"mkvmerge --output \"{shlex.quote(mka_output)}\" --no-video \"{shlex.quote(file_path)}\"")
     clear_screen()
 
     print("Step 3: Combining everything...")
-    run_command(f'mkvmerge -o {shlex.quote(final_output)} {shlex.quote(hevc_output)} {shlex.quote(mka_output)}')
+    run_command(f"mkvmerge -o \"{shlex.quote(final_output)}\" \"{shlex.quote(hevc_output)}\" \"{shlex.quote(mka_output)}\"")
     clear_screen()
 
     print("Step 4: Cleaning up intermediates...")
