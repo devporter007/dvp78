@@ -1,8 +1,5 @@
 import os
 import sys
-import shlex
-import subprocess
-
 COLORS = {
     "black": "\u001b[30;1m",
     "red": "\u001b[31;1m",
@@ -15,14 +12,18 @@ COLORS = {
     "yellow-background": "\u001b[43m",
     "black-background": "\u001b[40m",
     "cyan-background": "\u001b[46;1m",
-    "reset": "\u001b[0m",
 }
+# Checks for required dependencies....[WIP]
+def prerunchecks():
 
-VERSION = "0.3g"
+    pass
 
-BANNER = f'''
+ver = "0.3f"
+
+gen = f'''
                                                 [[yellow]]Port007[[white]] proudly presents:
-                                            [[red]]     *\\*_o__ **o/   o** __o    
+
+                                            [[red]]     _\\__o__ __o/   o__ __o    
                                                       v    |/  /v     v\\   
                                                           /   />       <\\  
                                                         o/    \\o       o/  
@@ -31,82 +32,78 @@ BANNER = f'''
                                                     o/        \\         /  
                                                    /v          o       o   
                                                   />           <\\__ __/>   
-                                                         [[cyan]]{VERSION}[[white]]
+
+                                                         [[cyan]]{ver}[[white]]
+
                               [[magenta]]     Making tools to create quality releases since 2023     
+
                         This tool is part of a tool pack made to archive movies for the uncertain future[[white]]
 '''
 
-def colorize(text):
-    for color, code in COLORS.items():
-        text = text.replace(f"[[{color}]]", code)
-    return text + COLORS["reset"]
 
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print(colorize(BANNER))
 
-def run_command(command):
+def colortext(text):
+    for color in COLORS:
+        text = text.replace("[[" + color + "]]", COLORS[color])
+    return text
+def Clear():
+    os.system('cls' if os.name=='nt' else 'clear')
+    print(colortext(gen))
+
+Clear()
+
+try:
+    buddy = sys.argv[1]
     try:
-        subprocess.run(command, check=True, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {e}")
-        sys.exit(1)
+        try:
+            #Windows
+            end = buddy.rindex("\\")
+            directoryController = "\\"
+        except:
+            #Unix
+            end = buddy.rindex("/")
+            directoryController = "/"
+    # Handles short paths.
+    except:
+        # Obviously there are better ways to do it.
+        if os.path.isfile(buddy):
+            buddy = os.path.abspath(buddy)
+            try:
+                # Windows
+                end = buddy.rindex("\\")
+                directoryController = "\\"
+            except:
+                # Unix
+                end = buddy.rindex("/")
+                directoryController = "/"
+        else:
+            print("Invalid file system")
+            sys.stdin.read(1)
+            sys.exit()
+    workdir = buddy[:end]
+    medname = buddy[end:]
 
-def process_file(file_path):
-    # Convert to absolute path, considering the current working directory
-    file_path = os.path.abspath(os.path.expanduser(file_path))
-    
-    if not os.path.isfile(file_path):
-        print(f"File does not exist: {file_path}")
-        sys.exit(1)
-
-    work_dir = os.path.dirname(file_path)
-    file_name = os.path.basename(file_path)
-    name_without_ext = os.path.splitext(file_name)[0]
-
-    hevc_output = os.path.join(work_dir, f"{name_without_ext}.hevc")
-    mka_output = os.path.join(work_dir, f"{name_without_ext}.mka")
-    final_output = os.path.join(work_dir, f"{name_without_ext}.P8.mkv")
-
-    print(f"Processing file: {file_path}")
-    print(f"Working directory: {work_dir}")
-
-    print("Step 1: Extracting RPU and removing EL...")
-    run_command(f"ffmpeg -y -i \"{shlex.quote(file_path)}\" -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o \"{shlex.quote(hevc_output)}\"")
-    clear_screen()
-
-    print("Step 2: Generating mka without video, keeping everything else intact...")
-    run_command(f"mkvmerge --output \"{shlex.quote(mka_output)}\" --no-video \"{shlex.quote(file_path)}\"")
-    clear_screen()
-
-    print("Step 3: Combining everything...")
-    run_command(f"mkvmerge -o \"{shlex.quote(final_output)}\" \"{shlex.quote(hevc_output)}\" \"{shlex.quote(mka_output)}\"")
-    clear_screen()
-
-    print("Step 4: Cleaning up intermediates...")
-    os.remove(hevc_output)
-    os.remove(mka_output)
-    clear_screen()
-
-    print("Processing completed successfully.")
-    print(f"Output file: {final_output}")
-
-def main():
-    clear_screen()
-    try:
-        if len(sys.argv) < 2:
-            print("Usage: python script.py <file_path>")
-            print("Please provide a file path as an argument.")
-            sys.exit(1)
-
-        process_file(sys.argv[1])
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    
-    finally:
-        print("Press any key to exit...")
-        input()
-
-if __name__ == "__main__":
-    main()
+    ## Security check to avoid any code injection[for binaries]
+    if os.path.exists(buddy):
+        pass
+    else:
+        print("Malformed input arguement, exiting...")
+        sys.exit()
+    extensionlessname = medname[:-4]
+    print("Step-1 : Extracting RPU and removing EL....")
+    os.system(f"ffmpeg -y -i \"{buddy}\" -dn -c:v copy -vbsf hevc_mp4toannexb -f hevc - | dovi_tool -m 2 convert --discard - -o \"{workdir}{directoryController}{extensionlessname}.hevc\"")
+    Clear()
+    print("Step-2: Genering mka without video keeping everything else intact....")
+    os.system(f"mkvmerge --output \"{workdir}{extensionlessname}.mka\" --no-video \"{buddy}\"")
+    Clear()
+    print("Step-3: Combining everything...")
+    os.system(f"mkvmerge -o \"{workdir}{extensionlessname}.P8.mkv\" \"{workdir}{directoryController}{extensionlessname}.hevc\" \"{workdir}{extensionlessname}.mka\"")
+    Clear()
+    print("Step-4: Cleaning up intermediates...")
+    os.remove(f"{workdir}{directoryController}{extensionlessname}.hevc")
+    os.remove(f"{workdir}{extensionlessname}.mka")
+    Clear()
+    print("Exiting...")
+except IndexError:
+    print("No inputs found, please drag the file to this script/binary")
+    sys.stdin.read(1)
