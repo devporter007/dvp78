@@ -3,7 +3,7 @@ A script that automates the conversion of Dolby Vision Profile 7 (MEL, FEL) to P
 
 ## Requirements:
 <LI> ffmpeg</LI>
-<LI> (dovi_tool)[https://github.com/quietvoid/dovi_tool]</LI>
+<LI> <a href="https://github.com/quietvoid/dovi_tool">dovi_tool</a></LI>
 <LI> mkvmerge (from mkvtoolnix)</LI>
 <br>
 All of the above-mentioned tools should be present in the environment variables. A check that ensures this will be implemented soon.
